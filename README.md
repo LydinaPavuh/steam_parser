@@ -1,6 +1,7 @@
 # steam_parser
 
 Запуск: 
+
 manage.py - Запуск парсера и сервера одновременно
 
 analyze.py - Запуск парсера
@@ -18,6 +19,7 @@ manage.py: ANALYZE_DELAY- Задержка между циклами парси�
 
 
 Launch: 
+
 manage.py - Start parser and server
 
 analyze.py - Start parser
