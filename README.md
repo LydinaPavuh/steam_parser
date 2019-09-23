@@ -8,6 +8,8 @@ analyze.py - Запуск парсера
 
 server.py  - Запуск сервера
 
+models.py - При запуске создает базу данных
+
       
 analyze.py: 
 
@@ -29,6 +31,8 @@ manage.py - Start parser and server
 analyze.py - Start parser
 
 server.py - Start server
+
+models.py - Creates a database on startup
         
 analyze.py: 
 
