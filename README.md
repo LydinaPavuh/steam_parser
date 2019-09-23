@@ -19,7 +19,7 @@ ID_CONTAINER - Свойство HTML содержащие id приложени�
 
 manage.py: 
 
-ANALYZE_DELAY- Задержка между циклами парсинга, при двух - трех циклах парсинга в сутки количество необработанных страниц уменьшается до минимума, страницы заблокированные в основном цикле востанавлюваются дополнительными циклами (запускается автоматически)
+ANALYZE_DELAY- Задержка между циклами парсинга, при двух - трех циклах парсинга в сутки количество необработанных страниц уменьшается до минимума, страницы заблокированные в основном цикле востанавливаются дополнительными циклами (запускается автоматически)
 
 
 Launch: 
@@ -40,4 +40,4 @@ ID_CONTAINER - HTML Property containing steam application id
 
 manage.py:
 
-ANALYZE_DELAY - Delay between cycles parsing, when two or three cycles of parsing a number of unprocessed pages is reduced to a minimum, the page is blocked in the main loop vosstanavlivayutsya additional cycles (starts automatically)        
+ANALYZE_DELAY - The delay between parsing cycles, with two or three parsing cycles per day, the number of unprocessed pages is reduced to a minimum, pages blocked in the main cycle are restored with additional cycles (starts automatically)        
