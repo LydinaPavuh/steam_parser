@@ -42,7 +42,7 @@ def Write_in_database(app):
     app_data = App_data_actual.get_or_none(App_data_actual.appid == app["id"])
     if app_data == None:
         try:#Бывают несколько форматов
-            date = datetime.strptime(app["release_date"], '%d %b, %Y')
+            date = datetime.date(datetime.strptime(app["release_date"], '%d %b, %Y'))
         except ValueError:
             try: # Как выяснилось некоторые даты релиза вообще не читаемы (названия месяцев бывают на разных языках(Польский,Японский и другие нечитабельные) либо вообще не существующие)
                 date = datetime.date(datetime.strptime(app["release_date"], '%b %d, %Y'))
