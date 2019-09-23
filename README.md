@@ -32,9 +32,9 @@ server.py - Start server
         
 analyze.py: 
 
-PAUSES-Enables / disables the pause between clicks on the links, designed to simulate human actions,steam server less responsive to such requests and the chance of a ban is significantly reduced ,can be disabled when using multiple proxies or VPN.
+PAUSES - Enables / disables the pause between clicks on the links, designed to simulate human actions,steam server less responsive to such requests and the chance of a ban is significantly reduced ,can be disabled when using multiple proxies or VPN.
 
-USER_AGENTS-User agents are sent as a header, simulated use of a real browser, when using the standard user agent library requests requests are blocked already in the first iterations.
+USER_AGENTS - User agents are sent as a header, simulated use of a real browser, when using the standard user agent library requests requests are blocked already in the first iterations.
 
 ID_CONTAINER - HTML Property containing steam application id
 
