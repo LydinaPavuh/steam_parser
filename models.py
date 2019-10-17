@@ -1,3 +1,4 @@
+#coding=utf-8
 from peewee import *
 from datetime import datetime, date
 
@@ -23,7 +24,7 @@ class App_data_actual(Model):
         database = BASE  
 
 
-#актуальные данные
+#История
 class History(Model):
     app = ForeignKeyField(App_data_actual, related_name='app', to_field='appid', on_delete='cascade',on_update='cascade')
     position = IntegerField(default=-1)

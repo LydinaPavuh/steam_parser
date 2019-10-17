@@ -1,3 +1,4 @@
+#coding=utf-8
 from threading import Thread
 import requests
 from lxml import html
@@ -40,7 +41,7 @@ bad_elems =[]
 # Записываем в базу
 def Write_in_database(app):
     app_data = App_data_actual.get_or_none(App_data_actual.appid == app["id"])
-    if app_data == None:
+    if app_data is None:
         try:#Бывают несколько форматов
             date = datetime.date(datetime.strptime(app["release_date"], '%d %b, %Y'))
         except ValueError:
@@ -49,7 +50,7 @@ def Write_in_database(app):
             except ValueError:
                 date = None    
         #Если совпадает с насоящий датой - новое
-        if date ==datetime.date(datetime.now()):
+        if date == datetime.date(datetime.now()):
             new =True
         else:
             new = False            
@@ -107,8 +108,11 @@ def Get_app_data(element,pos):
         #Отзывы хранятся отдельно    
         rev_info = sess.get("https://store.steampowered.com/appreviewhistogram/{}?l=all&review_score_preference=1".format(info["id"]),headers ={'User-Agent':random.choice(USER_AGENTS)})
         text = app_info.text.replace("true","True")    
-        if text != "null":
+        if text != "null" and app_info.status_code==200:
             break
+        elif app_info.status_code==403:
+            bad_elems.append((element,pos))
+            return
         
     text = text.replace("false","False")
     text = text.replace("null","0")
@@ -119,13 +123,14 @@ def Get_app_data(element,pos):
     try:# является ли json-ом
         app_reviews = eval(text_rev)
         app = eval(text)
-    except SyntaxError:
+        # а также  иногда БД стима возвращает 200 но в json пишет неудачный запрос
+        info["name"] = app[info["id"]]["data"]["name"]  
+        info["image"] = app[info["id"]]["data"]["header_image"].replace("\\","")
+        info["release_date"] = app[info["id"]]["data"]["release_date"]["date"]
+    except :
         bad_elems.append((element,pos))
         return
-    
-    info["name"] = app[info["id"]]["data"]["name"]  
-    info["image"] = app[info["id"]]["data"]["header_image"].replace("\\","")
-    info["release_date"] = app[info["id"]]["data"]["release_date"]["date"]
+        
     try:# Сервера стима иногда закрывают доступ к ачивкам
         info["achievements"] = app[info["id"]]["data"]["achievements"]["total"]
     except KeyError: 
@@ -205,7 +210,9 @@ def analyze_loop(delay):
         for i in jobs:
             i.join()
         while len(bad_elems)>0:
-            print("Ссылки без доступа:{}, повторный запрос".format(len(bad_elems)))
+            print("Ссылки без доступа:{}, повторный запрос через 3 минуты".format(len(bad_elems)))
+            time.sleep(180)
+            print("Cборка заблокированных страниц")
             bads = bad_elems #Записываем отдельно чтоб не обновлялся в ходе цикла
             for i in bads:
                 time.sleep(random.randrange(2,4))

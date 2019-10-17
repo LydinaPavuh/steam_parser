@@ -1,3 +1,4 @@
+#coding=utf-8
 from http.server import BaseHTTPRequestHandler,HTTPServer
 from urllib.parse import urlparse
 from datetime import date,datetime,timedelta
@@ -9,9 +10,7 @@ class HttpProcessor(BaseHTTPRequestHandler):
     
 
     def do_GET(self):
-        self.send_response(200)
-        self.send_header('content-type','application/json')
-        self.end_headers()
+        
         parsed_path =  urlparse(self.path)
         query = {}
 
@@ -21,11 +20,19 @@ class HttpProcessor(BaseHTTPRequestHandler):
             for i in query_str:
                 i = i.split("=")
                 query[i[0]] = i[1]
-
-        if parsed_path.path ==  "/history":
-            self.wfile.write(self.history_view(query))
-        elif parsed_path.path ==  "/app":
-            self.wfile.write(self.app_view(query))
+        try:
+            if parsed_path.path ==  "/history":
+                self.history_view(query)
+            elif parsed_path.path ==  "/app":
+                self.app_view(query)
+            else:
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write("Not found".encode())
+        except:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write("Not found".encode())        
 
 
     #Представление при запросах по /history
@@ -69,7 +76,10 @@ class HttpProcessor(BaseHTTPRequestHandler):
                 pass
 
             json_list.append(dict)
-        return json.dumps({"results":json_list}).encode()
+        self.send_response(200) 
+        self.send_header('content-type','application/json')
+        self.end_headers()
+        self.wfile.write(json.dumps({"results":json_list}).encode())
 
     #Представление при запросах по /app
     def app_view(self,query):
@@ -118,7 +128,10 @@ class HttpProcessor(BaseHTTPRequestHandler):
                         "hasAchievements":achievements
                     }
             json_list.append(dict)
-        return json.dumps({"results":json_list}).encode()    
+        self.send_response(200) 
+        self.send_header('content-type','application/json')
+        self.end_headers()
+        self.wfile.write(json.dumps({"results":json_list}).encode())
 
 
 
