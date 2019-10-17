@@ -4,7 +4,7 @@ from server import runserver
 from http.server import HTTPServer
 from analyze import *
 
-#Steam parser v1.0
+#Steam parser v1.1
 
 ANALYZE_DELAY = 3600 * 8# second in hour * hours
 HOST = "localhost"
